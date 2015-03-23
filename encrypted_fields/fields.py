@@ -32,7 +32,7 @@ class KeyczarWrapper(object):
         return self.crypter.Decrypt(ciphertext)
 
 
-class EncryptedFieldMixin(object):
+class EncryptedFieldMixin(object, metaclass=models.SubfieldBase):
     """
     EncryptedFieldMixin will use keyczar to encrypt/decrypt data that is being
     marshalled in/out of the database into application Django model fields.
@@ -77,7 +77,6 @@ class EncryptedFieldMixin(object):
     A ValueError will be raised if the encrypted length of the data (including
     prefix if specified) is greater than the max_length of the field.
     """
-    __metaclass__ = models.SubfieldBase
 
     def __init__(self, *args, **kwargs):
         """
@@ -150,7 +149,7 @@ class EncryptedFieldMixin(object):
         return 'TextField'
 
     def to_python(self, value):
-        if value is None or not isinstance(value, types.StringTypes):
+        if value is None or not isinstance(value, str):
             return value
 
         if self.prefix and value.startswith(self.prefix):
@@ -158,7 +157,7 @@ class EncryptedFieldMixin(object):
 
         try:
             value = self.crypter().decrypt(value)
-            value = value.decode('unicode_escape')
+            # value = value.decode('unicode_escape')
         except keyczar.errors.KeyczarError:
             pass
         except UnicodeEncodeError:
@@ -172,9 +171,9 @@ class EncryptedFieldMixin(object):
         if value is None or value == '' or self.decrypt_only:
             return value
 
-        if isinstance(value, types.StringTypes):
+        if isinstance(value, str):
             value = value.encode('unicode_escape')
-            value = value.encode('ascii')
+            # value = value.encode('ascii')
         else:
             value = str(value)
 
