@@ -5,6 +5,7 @@
 ### Django Encrypted Fields
 
 This is a collection of Django Model Field classes that are encrypted using [Keyczar](http://www.keyczar.org/).
+In this repository, the package supports Python 3 so it is necessary to install Keyczar from this repository: https://github.com/jbtule/keyczar-python2to3
 
 #### About Keyczar
 
