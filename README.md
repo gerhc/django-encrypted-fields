@@ -13,7 +13,7 @@ In this repository, the package supports Python 3 so it is necessary to install 
 
 #### Getting Started
 ```shell
-$ pip install django-encrypted-fields
+$ pip install -e https://github.com/gerhc/django-encrypted-fields#egg=django-encrypted-fields
 ```
 Create a basic keyczar keyset. `AES-256` in this case.
 ```shell
