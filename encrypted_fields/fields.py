@@ -1,7 +1,7 @@
 
 import os
 import types
-
+import binascii
 from django.db import models
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
@@ -161,6 +161,8 @@ class EncryptedFieldMixin(object, metaclass=models.SubfieldBase):
         except keyczar.errors.KeyczarError:
             pass
         except UnicodeEncodeError:
+            pass
+        except binascii.Error:
             pass
 
         return super(EncryptedFieldMixin, self).to_python(value)
